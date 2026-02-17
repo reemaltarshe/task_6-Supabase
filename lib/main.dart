@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supabase_app/core/dependency_injectable/injection.dart';
+import 'package:supabase_app/core/presentation/splash/splash_screen.dart';
+import 'package:supabase_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:supabase_app/features/authors/presentation/cubit/author_cubit.dart';
 import 'package:supabase_app/features/authors/presentation/pages/authors_page.dart';
 import 'package:supabase_app/features/books/presentation/cubit/book_cubit.dart';
@@ -32,10 +34,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: MultiBlocProvider(
+    return  MultiBlocProvider(
           providers: [
+            BlocProvider(create: (context) => getIt<AuthCubit>()),
             BlocProvider(
               create: (context) => getIt<AuthorCubit>()..fetchauthor(),
             ),
@@ -43,11 +44,10 @@ class MyApp extends StatelessWidget {
                 create: (context) => getIt<BookCubit>()..loadBooks(),
             )
           ],
-        child:NavBar() ,
+        child:MaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: SplashScreen() ,
       )
-
-
-
     );
   }
 }

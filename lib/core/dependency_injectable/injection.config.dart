@@ -13,6 +13,15 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:supabase_app/core/dependency_injectable/injection.dart'
     as _i1040;
+import 'package:supabase_app/features/auth/data/datasource/user_remot_data_source.dart'
+    as _i489;
+import 'package:supabase_app/features/auth/data/repo_imp/user_repo_imp.dart'
+    as _i960;
+import 'package:supabase_app/features/auth/domain/repo/user_repo.dart' as _i704;
+import 'package:supabase_app/features/auth/domain/usecase/sign_up_use_case.dart'
+    as _i34;
+import 'package:supabase_app/features/auth/presentation/cubit/auth_cubit.dart'
+    as _i312;
 import 'package:supabase_app/features/authors/data/data_sources/author_remote_data_source.dart'
     as _i767;
 import 'package:supabase_app/features/authors/data/repo_impl/author_repo_impl.dart'
@@ -48,6 +57,10 @@ extension GetItInjectableX on _i174.GetIt {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final registerModule = _$RegisterModule();
     gh.lazySingleton<_i454.SupabaseClient>(() => registerModule.supabaseClient);
+    gh.factory<_i489.UserRemotDataSource>(
+      () =>
+          _i489.UserRemotDataSource(supabaseClient: gh<_i454.SupabaseClient>()),
+    );
     gh.factory<_i289.BookRemoteDataSource>(
       () => _i289.BookRemoteDataSource(
         supabaseClient: gh<_i454.SupabaseClient>(),
@@ -56,8 +69,17 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i767.AuthorRemoteDataSource>(
       () => _i767.AuthorRemoteDataSource(gh<_i454.SupabaseClient>()),
     );
+    gh.lazySingleton<_i704.UserRepo>(
+      () => _i960.UserRepoImp(remote: gh<_i489.UserRemotDataSource>()),
+    );
+    gh.factory<_i34.SignUpUseCase>(
+      () => _i34.SignUpUseCase(repository: gh<_i704.UserRepo>()),
+    );
     gh.lazySingleton<_i325.BookRepo>(
       () => _i312.BookRepoImpl(remote: gh<_i289.BookRemoteDataSource>()),
+    );
+    gh.factory<_i312.AuthCubit>(
+      () => _i312.AuthCubit(gh<_i34.SignUpUseCase>()),
     );
     gh.lazySingleton<_i1058.AuthorRepo>(
       () => _i772.AuthorRepoImpl(remote: gh<_i767.AuthorRemoteDataSource>()),
