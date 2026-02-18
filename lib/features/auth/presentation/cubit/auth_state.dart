@@ -13,7 +13,13 @@ final class AuthSuccess extends AuthState {
   AuthSuccess({required this.user});
 }
 
-class AuthLoggedOut extends AuthState {}
+class AuthUnauthenticated extends AuthState {}
+
+class AuthAuthenticated extends AuthState {
+  final UserEntity user;
+
+  AuthAuthenticated(this.user);
+}
 
 
 final class AuthError extends AuthState {

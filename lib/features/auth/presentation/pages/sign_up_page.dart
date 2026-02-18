@@ -13,13 +13,13 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  final _emailcontroller= TextEditingController();
-  final _passcontroller=TextEditingController();
+  final _emailController= TextEditingController();
+  final _passController=TextEditingController();
 
   @override
   void dispose() {
-    _emailcontroller.dispose();
-    _passcontroller.dispose();
+    _emailController.dispose();
+    _passController.dispose();
     super.dispose();
   }
 
@@ -55,7 +55,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 const Text("Email :"),
                 const SizedBox(height: 6,),
                 CustomTextField(
-                    controller: _emailcontroller,
+                    controller: _emailController,
                     hint: 'Enter email please'
                 ),
                 const SizedBox(height: 20,),
@@ -63,7 +63,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 const SizedBox(height: 6,),
                 CustomTextField(
                   helperText: 'Must be a strong password',
-                    controller: _passcontroller,
+                    controller: _passController,
                     hint: 'Enter password please'
                 ),
                 const SizedBox(height: 24),
@@ -72,8 +72,8 @@ class _SignUpPageState extends State<SignUpPage> {
                 else
                   ElevatedButton.icon(
                        onPressed: (){
-                         if (_emailcontroller.text.isEmpty ||
-                             _passcontroller.text.isEmpty) {
+                         if (_emailController.text.isEmpty ||
+                             _passController.text.isEmpty) {
                            ScaffoldMessenger.of(context).showSnackBar(
                              const SnackBar(content: Text('Please fill all fields')),
                            );
@@ -81,8 +81,8 @@ class _SignUpPageState extends State<SignUpPage> {
                          }
 
                          context.read<AuthCubit>().signUp(
-                         _emailcontroller.text,
-                         _passcontroller.text,
+                         _emailController.text,
+                         _passController.text,
                       );
             },
                        label:const Text('Sign Up'),

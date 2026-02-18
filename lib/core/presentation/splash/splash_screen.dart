@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../features/auth/presentation/pages/sign_in_page.dart';
 import '../../../features/auth/presentation/pages/sign_up_page.dart';
 import '../../widget/nav_bar/nav_bar.dart';
 
@@ -57,8 +58,8 @@ class _SplashScreenState extends State<SplashScreen>
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (_) =>
-        session == null ? const SignUpPage() : const NavBar(),
+        builder: (context) =>
+        session == null ? SignInPage() : const NavBar(),
       ),
     );
   }

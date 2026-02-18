@@ -18,6 +18,10 @@ import 'package:supabase_app/features/auth/data/datasource/user_remot_data_sourc
 import 'package:supabase_app/features/auth/data/repo_imp/user_repo_imp.dart'
     as _i960;
 import 'package:supabase_app/features/auth/domain/repo/user_repo.dart' as _i704;
+import 'package:supabase_app/features/auth/domain/usecase/log_out_use_case.dart'
+    as _i526;
+import 'package:supabase_app/features/auth/domain/usecase/sign_in_use_case.dart'
+    as _i442;
 import 'package:supabase_app/features/auth/domain/usecase/sign_up_use_case.dart'
     as _i34;
 import 'package:supabase_app/features/auth/presentation/cubit/auth_cubit.dart'
@@ -72,14 +76,24 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i704.UserRepo>(
       () => _i960.UserRepoImp(remote: gh<_i489.UserRemotDataSource>()),
     );
+    gh.factory<_i526.LogOutUseCase>(
+      () => _i526.LogOutUseCase(repository: gh<_i704.UserRepo>()),
+    );
+    gh.factory<_i442.SignInUseCase>(
+      () => _i442.SignInUseCase(repository: gh<_i704.UserRepo>()),
+    );
     gh.factory<_i34.SignUpUseCase>(
       () => _i34.SignUpUseCase(repository: gh<_i704.UserRepo>()),
     );
+    gh.factory<_i312.AuthCubit>(
+      () => _i312.AuthCubit(
+        gh<_i34.SignUpUseCase>(),
+        signInUseCase: gh<_i442.SignInUseCase>(),
+        logOutUseCase: gh<_i526.LogOutUseCase>(),
+      ),
+    );
     gh.lazySingleton<_i325.BookRepo>(
       () => _i312.BookRepoImpl(remote: gh<_i289.BookRemoteDataSource>()),
-    );
-    gh.factory<_i312.AuthCubit>(
-      () => _i312.AuthCubit(gh<_i34.SignUpUseCase>()),
     );
     gh.lazySingleton<_i1058.AuthorRepo>(
       () => _i772.AuthorRepoImpl(remote: gh<_i767.AuthorRemoteDataSource>()),

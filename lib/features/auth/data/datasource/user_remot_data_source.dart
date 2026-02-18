@@ -17,4 +17,18 @@ class UserRemotDataSource {
     }
     return UserModel.fromSupabase(user);
   }
+
+  Future<UserModel>signIn(String email , String password) async{
+    final response= await supabaseClient.auth.signInWithPassword( email: email,password: password);
+    final user= response.user;
+
+    if(user == null){
+      throw Exception('failed sign in');
+    }
+    return UserModel.fromSupabase(user);
+  }
+
+  Future<void>logOut() async{
+   return await supabaseClient.auth.signOut();
+  }
 }

@@ -12,4 +12,14 @@ class UserRepoImp implements UserRepo{
   Future<UserEntity> signUp({required String email, required String password}) {
     return remote.signUp(email, password);
   }
+
+  @override
+  Future<void> logOut() {
+    return remote.logOut();
+  }
+
+  @override
+  Future<UserEntity> signIn({required String email, required String password}) {
+    return remote.signIn(email, password);
+  }
 }
